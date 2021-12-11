@@ -185,6 +185,17 @@ export async function executeReverseOrder() {
   });
 }
 
+export async function executeShuffle() {
+  await changeOrder(blocks => {
+    for (let i = blocks.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
+    }
+
+    return blocks.map(b => b.id);
+  });
+}
+
 export async function changeOrder(reorder: (blocks: CraftBlock[]) => string[]) {
   const currentDocument = await getCurrentPage();
   let blocks = await getSelection();

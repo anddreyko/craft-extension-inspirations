@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 import { CraftBlock } from "@craftdocs/craft-extension-api";
-import { executeBlockUpdateAction, executeApplyStyle, executeDynamicAction, executeSort, executeReverseOrder } from "../actions";
+import { executeBlockUpdateAction, executeApplyStyle, executeDynamicAction, executeSort, executeReverseOrder, executeShuffle } from "../actions";
 import { BlockStyleAction, replaceInvalidCharacters } from "../utils";
 import { logToInPageConsole } from "../console";
 
@@ -63,6 +63,7 @@ return true;`.trim();
       actions: [
         new Option("Sort alphabetically", "sort"),
         new Option("Reverse order", "reverse_order"),
+        new Option("Shuffle", "shuffle"),
         new Option("Convert empty toggles to bullet", "convert_empty_toggles_to_bullet")
       ]
     },
@@ -96,6 +97,8 @@ return true;`.trim();
         return;
       case "reverse_order":
         await executeReverseOrder();
+      case "shuffle":
+        await executeShuffle();
       case "apply_style":
         const stlyeAction = styleAction as unknown as BlockStyleAction;
         if (stlyeAction == null) {
